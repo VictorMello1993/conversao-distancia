@@ -1,0 +1,36 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: conversao-distancia
+spec:
+ replicas: 8 #Número de pods
+ selector:
+  matchLabels:
+   app: conversao-distancia
+ template: 
+  metadata:
+   labels:
+    app: conversao-distancia
+  spec:
+   containers:
+   - name: conversao-distancia
+     image: victormello93/conversao-distancia:v2
+     ports: 
+      - containerPort: 5000
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+ name: conversao-distancia
+spec: 
+ selector:
+  app: conversao-distancia 
+ ports: 
+ - port: 80
+   targetPort: 5000
+   nodePort: 30000
+ type: NodePort
+
+  
